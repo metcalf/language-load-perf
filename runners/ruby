@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+module DSLPerf
+  class Base
+    def self.dsl(name, default)
+      define_method(name) do
+        instance_variable_get(name) || default
+      end
+      define_method("#{name}=".to_sym) do |value|
+        instance_variable_set(name, value)
+      end
+    end
+  end
+
+  def self.main(files)
+    files.each { |f| require(File.expand_path(f)) }
+  end
+end
+
+DSLPerf.main(ARGV) if $0 == __FILE__

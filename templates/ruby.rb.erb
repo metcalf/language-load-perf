@@ -1,0 +1,7 @@
+module DSLPerf
+  class <%= class_name %> < Base
+    <% methods.each do |name, default| %>
+      dsl :<%= name %>, "<%= default %>"
+    <% end %>
+  end
+end

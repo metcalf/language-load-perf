@@ -1,20 +1,34 @@
 #!/usr/bin/env ruby
 
-module DSLPerf
-  class Base
-    def self.dsl(name, default)
-      define_method(name) do
-        instance_variable_get(name) || default
-      end
-      define_method("#{name}=".to_sym) do |value|
-        instance_variable_set(name, value)
-      end
-    end
-  end
+RBC = false
 
-  def self.main(files)
-    files.each { |f| require(File.expand_path(f)) }
+class Base
+  def self.dsl(name, value)
+    define_method("dsl_#{name}".to_sym) do
+      instance_variable_get("@#{name}") || value
+    end
+
+    define_method("dsl_#{name}=".to_sym) do |v|
+      instance_variable_set("@#{name}", v)
+    end
   end
 end
 
-DSLPerf.main(ARGV) if $0 == __FILE__
+if RBC
+  require 'fileutils'
+
+  ARGV.each do |f|
+    rbc_f = File.join(File.dirname(f), "__rbcache__", File.basename(f))
+    if File.exist?(rbc_f)
+      iseq = RubyVM::InstructionSequence.load_from_binary(File.read(rbc_f))
+    else
+      iseq = RubyVM::InstructionSequence.compile_file(f)
+      FileUtils.mkdir_p(File.dirname(rbc_f))
+      File.write(rbc_f, iseq.to_binary)
+    end
+
+    iseq.eval
+  end
+else
+  ARGV.each { |f| require(File.expand_path(f)) }
+end

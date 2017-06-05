@@ -5,7 +5,7 @@ require 'fileutils'
 module Generate
   def self.parse_args(args)
     options = {
-      methods: 20,
+      methods: 30,
       files: 5000,
       output: File.join(__dir__, 'data'),
     }
@@ -39,8 +39,9 @@ module Generate
 
     cases.each do |cs|
       erb_path = File.join(__dir__, 'templates', cs)
-      case_name, ext, = File.basename(erb_path).split('.')
-      out_path = File.join(options[:output], case_name)
+      case_dir, ext, = cs.split('.')
+      case_name = File.basename(case_dir)
+      out_path = File.join(options[:output], case_dir)
 
       tmpl = ERB.new(File.read(erb_path))
 

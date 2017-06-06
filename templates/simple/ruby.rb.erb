@@ -1,0 +1,27 @@
+class <%= class_name %>
+<% methods.each do |name, default| %>
+  def <%= name %>(val)
+    if <%= default %>
+      baz = <%= name %>_foo
+    else
+      baz = "<%= default %>"
+    end
+
+    baz.each do |b|
+      z(a(b + 5) + 10).other.stuff
+    end
+
+    inst = OtherClass.new(baz)
+    if baz.ten
+      inst.var = "val"
+    else
+      inst.var = baz
+    end
+
+    inst.do_a_thing
+    inst.and_another
+
+    <%= name %>_bar(inst)
+  end
+<% end %>
+end

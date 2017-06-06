@@ -1,0 +1,26 @@
+from base import DSL
+
+class <%= class_name %>:
+<% methods.each do |name, default| %>
+    <%= name %> = DSL("<%= default %>")
+
+    def <%= name %>(val):
+        if <%= default %>:
+            baz = <%= name %>_foo()
+        else:
+            baz = "<%= default %>"
+
+        for b in baz:
+            z(a(b + 5) + 10).other().stuff()
+
+        inst = OtherClass(baz)
+        if baz.ten():
+          inst.var = "val"
+        else:
+          inst.var = baz
+
+        inst.do_a_thing()
+        inst.and_another()
+
+        <%= name %>_bar(inst)
+<% end %>

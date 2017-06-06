@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-RBC = false
-
 class Base
   def self.dsl(name, value)
     define_method("dsl_#{name}".to_sym) do
@@ -14,7 +12,7 @@ class Base
   end
 end
 
-if RBC
+if ENV['USE_ISEQ']
   require 'fileutils'
 
   ARGV.each do |f|

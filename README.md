@@ -22,3 +22,35 @@ I also implemented simple instruction sequence caching in Ruby:
 ```
 USE_ISEQ=1 ruby run.rb data simple/ruby dsl/ruby
 ```
+
+## Results
+
+Here were the results when I ran this on my laptop:
+
+| Language     | Simple classes | DSL metaprogamming | 
+|--------------|----------------|--------------------| 
+| Ruby         | ~10s           | ~13s               | 
+| Ruby (iseq)  | ~3s            | ~5s                | 
+| Python       | ~13s           | ~14s               | 
+| Python (pyc) | ~2s            | ~2s                | 
+| Javascript   | ~4s            | ~5s                | 
+
+On an EC2 r3.2xlarge:
+
+| Language     | Simple classes | DSL metaprogamming | 
+|--------------|----------------|--------------------| 
+| Ruby         | ~10s            | ~13s               | 
+| Ruby (iseq)  | ~4s            | ~7s                | 
+| Python       | ~14s           | ~15s               | 
+| Python (pyc) | ~3s            | ~3s                | 
+| Javascript   | ~7s            | ~8s                | 
+
+On an EC2 c4.xlarge:
+
+| Language     | Simple classes | DSL metaprogamming | 
+|--------------|----------------|--------------------| 
+| Ruby         | ~8s            | ~10s               | 
+| Ruby (iseq)  | ~3s            | ~5s                | 
+| Python       | ~11s           | ~11s               | 
+| Python (pyc) | ~2s            | ~2s                | 
+| Javascript   | ~4s            | ~6s                | 
